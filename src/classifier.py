@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.model_selection import KFold, cross_val_score
 from sklearn.svm import SVC
+from sklearn import metrics
 
 
 def load_data():
@@ -66,6 +67,30 @@ def cross_validation(X_train, y_train):
     return best_gamma
 
 
+def train(X_train, y_train, gamma):
+    """Fits the classifier to the training set."""
+
+    print("")
+    print("*** TRAINING ***")
+
+    clf = SVC(C=10, kernel='rbf', gamma=gamma)
+    clf.fit(X_train, y_train)
+
+    return clf
+
+
+def test(clf, X_test, y_test):
+    """Evaluates the classifier on the test set."""
+
+    print("")
+    print("*** TESTING ***")
+
+    y_pred = clf.predict(X_test)
+    accuracy = metrics.accuracy_score(y_test, y_pred)
+
+    print("The testing accuracy is ", accuracy)
+
+
 def main():
     """Main function."""
 
@@ -76,8 +101,10 @@ def main():
     gamma = cross_validation(X_train, y_train)
 
     # Train the optimal classifier.
+    clf = train(X_train, y_train, gamma)
 
     # Test the classifier.
+    test(clf, X_test, y_test)
 
     # Draw the learning curve.
 
