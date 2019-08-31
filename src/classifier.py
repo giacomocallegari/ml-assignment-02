@@ -10,9 +10,13 @@ import matplotlib.pyplot as plt
 # Flag for verbose printing.
 VERBOSE = True
 
+# Paths of the datasets and the predictions.
+DATA_PATH = "..\\data\\ocr\\"
+OUT_PATH = "..\\out\\"
+
 # Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
-TRAIN_SIZE = 8000
-TEST_SIZE = 2000
+TRAIN_SIZE = None
+TEST_SIZE = None
 
 
 # ---FUNCTIONS--- #
@@ -30,18 +34,15 @@ def load_data():
     print("")
     print("*** DATA LOADING ***")
 
-    # Path of the CSV files.
-    path = "..\\data\\ocr\\"
-
     # Load the input data.
     printv("Loading the input data...")
-    X_train = np.genfromtxt(path + "train-data.csv", delimiter=",")[:TRAIN_SIZE]
-    X_test = np.genfromtxt(path + "test-data.csv", delimiter=",")[:TEST_SIZE]
+    X_train = np.genfromtxt(DATA_PATH + "train-data.csv", delimiter=",")[:TRAIN_SIZE]
+    X_test = np.genfromtxt(DATA_PATH + "test-data.csv", delimiter=",")[:TEST_SIZE]
 
     # Load the output targets.
     printv("Loading the output targets...")
-    y_train = np.genfromtxt(path + "train-targets.csv", dtype="str")[:TRAIN_SIZE]
-    y_test = np.genfromtxt(path + "test-targets.csv", dtype="str")[:TEST_SIZE]
+    y_train = np.genfromtxt(DATA_PATH + "train-targets.csv", dtype="str")[:TRAIN_SIZE]
+    y_test = np.genfromtxt(DATA_PATH + "test-targets.csv", dtype="str")[:TEST_SIZE]
 
     print("Number of training examples: ", len(X_train))
     print("Number of test examples: ", len(X_test))
@@ -100,7 +101,7 @@ def train(X_train, y_train, gamma):
 
 
 def test(clf, X_test, y_test):
-    """Evaluates the classifier on the test set."""
+    """Evaluates the classifier on the test set and returns the predictions."""
 
     print("")
     print("*** TESTING ***")
@@ -119,6 +120,8 @@ def test(clf, X_test, y_test):
     print(report)
 
     print("The test accuracy is ", accuracy)
+
+    return y_pred
 
 
 def curve(clf, X_train, y_train):
@@ -149,7 +152,8 @@ def curve(clf, X_train, y_train):
     plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Training score")
 
     # Plot the standard deviation for the training scores.
-    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std, alpha=0.1, color="r")
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std,
+                     alpha=0.1, color="r")
 
     # Plot the mean for the validation scores.
     plt.plot(train_sizes, val_scores_mean, 'o-', color="g", label="Cross-validation score")
@@ -178,12 +182,14 @@ def main():
     # Train the optimal classifier.
     clf = train(X_train, y_train, gamma)
 
-    # Test the classifier.
-    test(clf, X_test, y_test)
+    # Test the classifier and obtain the predictions.
+    y_pred = test(clf, X_test, y_test)
 
     # Draw the learning curve.
     curve(clf, X_train, y_train)
 
+    # Save the predictions to file.
+    np.savetxt(OUT_PATH + "test-pred.txt", y_pred, fmt='%s', delimiter='\n')
 
 # Start the program.
 main()
