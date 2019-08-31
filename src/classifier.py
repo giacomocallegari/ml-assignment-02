@@ -5,6 +5,16 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 
 
+VERBOSE = True
+
+
+def printv(text):
+    """Prints verbose information."""
+
+    if VERBOSE:
+        print(text)
+
+
 def load_data():
     """Loads the input data and the output targets from the specified path."""
 
@@ -19,10 +29,12 @@ def load_data():
     test_size = 4000
 
     # Load the input data.
+    printv("Loading the input data...")
     X_train = np.genfromtxt(path + "train-data.csv", delimiter=",")[:train_size]
     X_test = np.genfromtxt(path + "test-data.csv", delimiter=",")[:test_size]
 
     # Load the output targets.
+    printv("Loading the output examples...")
     y_train = np.genfromtxt(path + "train-targets.csv", dtype="str")[:train_size]
     y_test = np.genfromtxt(path + "test-targets.csv", dtype="str")[:test_size]
 
@@ -74,6 +86,8 @@ def train(X_train, y_train, gamma):
     print("")
     print("*** TRAINING ***")
 
+    # Initialize and train the classifier
+    printv("Training the classifier...")
     clf = SVC(C=10, kernel='rbf', gamma=gamma)
     clf.fit(X_train, y_train)
 
@@ -86,10 +100,15 @@ def test(clf, X_test, y_test):
     print("")
     print("*** TESTING ***")
 
+    # Predict the test targets with the classifier
+    printv("Predicting the test targets...")
     y_pred = clf.predict(X_test)
+
+    # Compute the test accuracy
+    printv("Computing the accuracy...")
     accuracy = metrics.accuracy_score(y_test, y_pred)
 
-    print("The testing accuracy is ", accuracy)
+    print("The test accuracy is ", accuracy)
 
 
 def curve(clf, X_train, y_train):
@@ -106,9 +125,11 @@ def curve(clf, X_train, y_train):
     plt.grid()
 
     # Compute the scores of the learning curve.
+    printv("Computing the scores through cross validation....")
     train_sizes, train_scores, val_scores = learning_curve(clf, X_train, y_train, scoring='accuracy', cv=3)
 
     # Get the mean and standard deviation of train and validation scores.
+    printv("Computing the mean and standard deviation of the scores...")
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
     val_scores_mean = np.mean(val_scores, axis=1)
@@ -149,7 +170,7 @@ def main():
     test(clf, X_test, y_test)
 
     # Draw the learning curve.
-    curve(clf, X_train, y_train, )
+    curve(clf, X_train, y_train)
 
 
 # Start the program.
