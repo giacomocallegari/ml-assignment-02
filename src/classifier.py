@@ -5,14 +5,23 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 
 
+# ---CONFIGURATION PARAMETERS--- #
+
+# Flag for verbose printing.
 VERBOSE = True
 
+# Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
+TRAIN_SIZE = 4000
+TEST_SIZE = 1000
+
+
+# ---FUNCTIONS--- #
 
 def printv(text):
     """Prints verbose information."""
 
     if VERBOSE:
-        print(text)
+        print("[", text, "]")
 
 
 def load_data():
@@ -24,19 +33,15 @@ def load_data():
     # Path of the CSV files.
     path = "..\\data\\ocr\\"
 
-    # Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
-    train_size = 16000
-    test_size = 4000
-
     # Load the input data.
     printv("Loading the input data...")
-    X_train = np.genfromtxt(path + "train-data.csv", delimiter=",")[:train_size]
-    X_test = np.genfromtxt(path + "test-data.csv", delimiter=",")[:test_size]
+    X_train = np.genfromtxt(path + "train-data.csv", delimiter=",")[:TRAIN_SIZE]
+    X_test = np.genfromtxt(path + "test-data.csv", delimiter=",")[:TEST_SIZE]
 
     # Load the output targets.
     printv("Loading the output examples...")
-    y_train = np.genfromtxt(path + "train-targets.csv", dtype="str")[:train_size]
-    y_test = np.genfromtxt(path + "test-targets.csv", dtype="str")[:test_size]
+    y_train = np.genfromtxt(path + "train-targets.csv", dtype="str")[:TRAIN_SIZE]
+    y_test = np.genfromtxt(path + "test-targets.csv", dtype="str")[:TEST_SIZE]
 
     print("Number of training examples: ", len(X_train))
     print("Number of test examples: ", len(X_test))
@@ -45,25 +50,25 @@ def load_data():
 
 
 def cross_validation(X_train, y_train):
-    """Performs k-fold cross validation to tune the model's parameters."""
+    """Performs k-fold cross-validation to tune the model's parameters."""
 
     print("")
     print("*** CROSS VALIDATION ***")
 
-    # Define the cross validation process.
+    # Define the cross-validation process.
     kf = KFold(n_splits=3, shuffle=True, random_state=42)
 
     # Specify the candidate values.
     gamma_values = [0.1, 0.05, 0.02, 0.01]
     accuracy_scores = []
 
-    # Perform cross validation for each candidate value.
+    # Perform cross-validation for each candidate value.
+    printv("Starting the cross-validation...")
     for gamma in gamma_values:
-
         # Train the classifier.
         clf = SVC(C=10, kernel='rbf', gamma=gamma)
 
-        # Compute the cross validation scores.
+        # Compute the cross-validation scores.
         scores = cross_val_score(clf, X_train, y_train, cv=kf.split(X_train), scoring='accuracy')
 
         # Compute the mean accuracy and save it.
@@ -125,7 +130,7 @@ def curve(clf, X_train, y_train):
     plt.grid()
 
     # Compute the scores of the learning curve.
-    printv("Computing the scores through cross validation....")
+    printv("Computing the scores through cross-validation....")
     train_sizes, train_scores, val_scores = learning_curve(clf, X_train, y_train, scoring='accuracy', cv=3)
 
     # Get the mean and standard deviation of train and validation scores.
@@ -154,13 +159,15 @@ def curve(clf, X_train, y_train):
     plt.show()
 
 
+# ---MAIN--- #
+
 def main():
     """Main function."""
 
     # Load the data.
     X_train, X_test, y_train, y_test = load_data()
 
-    # Perform cross validation to obtain the optimal parameters.
+    # Perform cross-validation to obtain the optimal parameters.
     gamma = cross_validation(X_train, y_train)
 
     # Train the optimal classifier.
