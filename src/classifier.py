@@ -1,7 +1,8 @@
 import numpy as np
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.model_selection import KFold, cross_val_score, learning_curve
 from sklearn.svm import SVC
 from sklearn import metrics
+import matplotlib.pyplot as plt
 
 
 def load_data():
@@ -14,8 +15,8 @@ def load_data():
     path = "..\\data\\ocr\\"
 
     # Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
-    train_size = 2000
-    test_size = 500
+    train_size = 16000
+    test_size = 4000
 
     # Load the input data.
     X_train = np.genfromtxt(path + "train-data.csv", delimiter=",")[:train_size]
@@ -91,6 +92,47 @@ def test(clf, X_test, y_test):
     print("The testing accuracy is ", accuracy)
 
 
+def curve(clf, X_train, y_train):
+    """Draws the learning curve for the classifier."""
+
+    print("")
+    print("*** LEARNING CURVE ***")
+
+    # Create the plot.
+    plt.figure()
+    plt.title("Learning curve")
+    plt.xlabel("Training examples")
+    plt.ylabel("Score")
+    plt.grid()
+
+    # Compute the scores of the learning curve.
+    train_sizes, train_scores, val_scores = learning_curve(clf, X_train, y_train, scoring='accuracy', cv=3)
+
+    # Get the mean and standard deviation of train and validation scores.
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    val_scores_mean = np.mean(val_scores, axis=1)
+    val_scores_std = np.std(val_scores, axis=1)
+
+    # Plot the mean for the training scores.
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Training score")
+
+    # Plot the standard deviation for the training scores.
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std, alpha=0.1, color="r")
+
+    # Plot the mean for the validation scores.
+    plt.plot(train_sizes, val_scores_mean, 'o-', color="g", label="Cross-validation score")
+
+    # Plot the standard deviation for the validation scores.
+    plt.fill_between(train_sizes, val_scores_mean - val_scores_std,
+                     val_scores_mean + val_scores_std, alpha=0.1, color="g")
+
+    # Show the plot.
+    plt.ylim(0.05, 1.3)
+    plt.legend()
+    plt.show()
+
+
 def main():
     """Main function."""
 
@@ -107,6 +149,7 @@ def main():
     test(clf, X_test, y_test)
 
     # Draw the learning curve.
+    curve(clf, X_train, y_train, )
 
 
 # Start the program.
