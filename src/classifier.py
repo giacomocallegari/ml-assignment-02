@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 VERBOSE = True
 
 # Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
-TRAIN_SIZE = 4000
-TEST_SIZE = 1000
+TRAIN_SIZE = 8000
+TEST_SIZE = 2000
 
 
 # ---FUNCTIONS--- #
@@ -39,7 +39,7 @@ def load_data():
     X_test = np.genfromtxt(path + "test-data.csv", delimiter=",")[:TEST_SIZE]
 
     # Load the output targets.
-    printv("Loading the output examples...")
+    printv("Loading the output targets...")
     y_train = np.genfromtxt(path + "train-targets.csv", dtype="str")[:TRAIN_SIZE]
     y_test = np.genfromtxt(path + "test-targets.csv", dtype="str")[:TEST_SIZE]
 
@@ -91,7 +91,7 @@ def train(X_train, y_train, gamma):
     print("")
     print("*** TRAINING ***")
 
-    # Initialize and train the classifier
+    # Initialize and train the classifier.
     printv("Training the classifier...")
     clf = SVC(C=10, kernel='rbf', gamma=gamma)
     clf.fit(X_train, y_train)
@@ -105,13 +105,18 @@ def test(clf, X_test, y_test):
     print("")
     print("*** TESTING ***")
 
-    # Predict the test targets with the classifier
+    # Predict the test targets with the classifier.
     printv("Predicting the test targets...")
     y_pred = clf.predict(X_test)
 
-    # Compute the test accuracy
+    # Compute the test accuracy.
     printv("Computing the accuracy...")
     accuracy = metrics.accuracy_score(y_test, y_pred)
+
+    # Generate the classification report.
+    printv("Generating the classification report...")
+    report = metrics.classification_report(y_test, y_pred, output_dict=False)
+    print(report)
 
     print("The test accuracy is ", accuracy)
 
