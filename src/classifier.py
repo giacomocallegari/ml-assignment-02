@@ -134,8 +134,13 @@ def test(clf, X_test, y_test):
 
     # Generate the classification report.
     printv("Generating the classification report...")
-    report = metrics.classification_report(y_test, y_pred, output_dict=False)
-    print(report)
+    report = metrics.classification_report(y_test, y_pred, output_dict=True)
+
+    # Save the report to file as a dictionary.
+    printv("Saving the classification report to file...")
+    f = open(OUT_PATH + "report.txt", "w")
+    f.write(str(report))
+    f.close()
 
     print("The test accuracy is ", accuracy)
 
@@ -183,6 +188,7 @@ def curve(clf, X_train, y_train):
     # Show the plot.
     plt.ylim(0.05, 1.3)
     plt.legend()
+    plt.savefig(OUT_PATH + "plot.png", dpi=300)
     plt.show()
 
 
@@ -190,8 +196,6 @@ def curve(clf, X_train, y_train):
 
 def main():
     """Main function."""
-
-    GS = True
 
     # Load the data.
     X_train, X_test, y_train, y_test = load_data()
