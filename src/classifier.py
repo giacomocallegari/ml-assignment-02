@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.model_selection import KFold, cross_val_score, learning_curve
+from sklearn.model_selection import KFold, cross_val_score, learning_curve, GridSearchCV
 from sklearn.svm import SVC
 from sklearn import metrics
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 VERBOSE = True
 
 # Paths of the datasets and the predictions.
-DATA_PATH = "..\\data\\ocr\\"
+DATA_PATH = "..\\data\\spambase\\"
 OUT_PATH = "..\\out\\"
 
 # Number of considered examples, for debug reasons. Use "None" to take the whole dataset.
@@ -22,7 +22,7 @@ TEST_SIZE = None
 # ---FUNCTIONS--- #
 
 def printv(text):
-    """Prints verbose information."""
+    """Prints additional information if the VERBOSE flag is active."""
 
     if VERBOSE:
         print("[", text, "]")
@@ -86,7 +86,26 @@ def cross_validation(X_train, y_train):
     return best_gamma
 
 
-def train(X_train, y_train, gamma):
+def gs_cross_validation(svc, X_train, y_train):
+    """Performs grid search cross-validation to optimize two parameters at the same time."""
+
+    print("")
+    print("*** GRID SEARCH CROSS-VALIDATION ***")
+
+    # Candidate values for the parameters C and gamma.
+    possible_parameters = {
+        'C': [1e0, 1e1, 1e2, 1e3],
+        'gamma': [1e-1, 1e-2, 1e-3, 1e-4]
+    }
+
+    # Obtain the classifier directly from the grid search cross-validation.
+    printv("Starting the grid search cross-validation...")
+    clf = GridSearchCV(svc, possible_parameters, n_jobs=4, cv=3, iid=False)
+
+    return clf
+
+
+def train(clf, X_train, y_train):
     """Fits the classifier to the training set."""
 
     print("")
@@ -94,7 +113,6 @@ def train(X_train, y_train, gamma):
 
     # Initialize and train the classifier.
     printv("Training the classifier...")
-    clf = SVC(C=10, kernel='rbf', gamma=gamma)
     clf.fit(X_train, y_train)
 
     return clf
@@ -173,14 +191,17 @@ def curve(clf, X_train, y_train):
 def main():
     """Main function."""
 
+    GS = True
+
     # Load the data.
     X_train, X_test, y_train, y_test = load_data()
 
-    # Perform cross-validation to obtain the optimal parameters.
-    gamma = cross_validation(X_train, y_train)
+    # Obtain the optimal parameters through grid search cross-validation.
+    svc = SVC(kernel='rbf')
+    clf = gs_cross_validation(svc, X_train, y_train)
 
     # Train the optimal classifier.
-    clf = train(X_train, y_train, gamma)
+    clf = train(clf, X_train, y_train)
 
     # Test the classifier and obtain the predictions.
     y_pred = test(clf, X_test, y_test)
@@ -190,6 +211,7 @@ def main():
 
     # Save the predictions to file.
     np.savetxt(OUT_PATH + "test-pred.txt", y_pred, fmt='%s', delimiter='\n')
+
 
 # Start the program.
 main()

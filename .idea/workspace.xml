@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f26cd486-3720-4a07-9045-e69f4afb9b12" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/giaco.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/giaco.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tweets/tweets-test-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tweets/tweets-test-targets.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tweets/tweets-train-data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/tweets/tweets-train-targets.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier.py" afterDir="false" />
     </list>
+    <ignored path="out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/classifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="1890">
+              <caret line="214" selection-start-line="214" selection-end-line="214" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -70,6 +76,22 @@
             <path>
               <item name="ml-assignment-02" type="b2602c69:ProjectViewProjectNode" />
               <item name="ml-assignment-02" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ml-assignment-02" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ml-assignment-02" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ml-assignment-02" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ml-assignment-02" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="spambase" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ml-assignment-02" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ml-assignment-02" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ml-assignment-02" type="b2602c69:ProjectViewProjectNode" />
@@ -141,7 +163,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1567228958425</updated>
-      <workItem from="1567228982147" duration="11183000" />
+      <workItem from="1567228982147" duration="17781000" />
     </task>
     <task id="LOCAL-00001" summary="Load the data from CSV files">
       <created>1567230093056</created>
@@ -185,18 +207,31 @@
       <option name="project" value="LOCAL" />
       <updated>1567236457593</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Generate the classification report">
+      <created>1567240472435</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1567240472435</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Save the predictions to file">
+      <created>1567242684940</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1567242684940</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11183000" />
+    <option name="totallyTimeSpent" value="17781000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="952" y="-8" width="976" height="1096" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.19402985" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0804904" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -211,7 +246,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="SciView" weight="0.32995737" />
+      <window_info anchor="right" id="SciView" weight="0.29637527" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -228,16 +263,47 @@
     <MESSAGE value="Draw the learning curve" />
     <MESSAGE value="Print optional verbose information" />
     <MESSAGE value="Refactor minor elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor minor elements" />
+    <MESSAGE value="Generate the classification report" />
+    <MESSAGE value="Save the predictions to file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Save the predictions to file" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ml_assignment_02$classifier.coverage" NAME="classifier Coverage Results" MODIFIED="1567240273959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/ml_assignment_02$classifier.coverage" NAME="classifier Coverage Results" MODIFIED="1567246834481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/data/spambase/spambase.DOCUMENTATION">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-663" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/spambase/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/model_selection/_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="813" selection-start-line="813" selection-end-line="813" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/test-pred.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/spambase/test-targets.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        <state relative-caret-position="1890">
+          <caret line="214" selection-start-line="214" selection-end-line="214" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
